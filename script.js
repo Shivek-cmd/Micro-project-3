@@ -39,29 +39,9 @@ function appendToScreen(value) {
     }
     // Otherwise, append the decimal point to the screen
     document.getElementById("screen").value += value;
-  } else if (/[0-9]/.test(value)) {
-    // Check if the value is a digit
-    var lastChar = screenValue.slice(-1);
-    if (lastChar === ".") {
-      // If the last character is a decimal point, append the value directly
-      document.getElementById("screen").value += value;
-    } else {
-      // If the last character is not a decimal point, proceed with the logic
-      document.getElementById("screen").value += value;
-    }
   } else {
-    // If not 'DEL', '.', or a digit, append the value to the screen
     document.getElementById("screen").value += value;
   }
-}
-
-// Check if the value is 'DEL' for delete
-if (value === "DEL") {
-  // If 'DEL', remove the last character from the screen
-  document.getElementById("screen").value = screenValue.slice(0, -1);
-} else {
-  // If not 'DEL', append the value to the screen
-  document.getElementById("screen").value += value;
 }
 
 // Function to clear the screen
