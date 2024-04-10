@@ -2,14 +2,66 @@
 function appendToScreen(value) {
   // Get the current value on the screen
   var screenValue = document.getElementById("screen").value;
+
+  // Check if the value is an operator
+  if (value === "+" || value === "-" || value === "*" || value === "/") {
+    // Check if the last character on the screen is also an operator
+    var lastChar = screenValue.slice(-1);
+    if (
+      lastChar === "+" ||
+      lastChar === "-" ||
+      lastChar === "*" ||
+      lastChar === "/"
+    ) {
+      // If the last character is an operator, replace it with the new operator
+      document.getElementById("screen").value =
+        screenValue.slice(0, -1) + value;
+      return;
+    }
+  }
+
   // Check if the value is 'DEL' for delete
   if (value === "DEL") {
     // If 'DEL', remove the last character from the screen
     document.getElementById("screen").value = screenValue.slice(0, -1);
+  } else if (value === ".") {
+    // Check if the last character on the screen is already a decimal point
+    var lastDecimalIndex = screenValue.lastIndexOf(".");
+    var lastOperatorIndex = Math.max(
+      screenValue.lastIndexOf("+"),
+      screenValue.lastIndexOf("-"),
+      screenValue.lastIndexOf("*"),
+      screenValue.lastIndexOf("/")
+    );
+    if (lastDecimalIndex > lastOperatorIndex) {
+      // If a decimal point is already present, do not append another one
+      return;
+    }
+    // Otherwise, append the decimal point to the screen
+    document.getElementById("screen").value += value;
+  } else if (/[0-9]/.test(value)) {
+    // Check if the value is a digit
+    var lastChar = screenValue.slice(-1);
+    if (lastChar === ".") {
+      // If the last character is a decimal point, append the value directly
+      document.getElementById("screen").value += value;
+    } else {
+      // If the last character is not a decimal point, proceed with the logic
+      document.getElementById("screen").value += value;
+    }
   } else {
-    // If not 'DEL', append the value to the screen
+    // If not 'DEL', '.', or a digit, append the value to the screen
     document.getElementById("screen").value += value;
   }
+}
+
+// Check if the value is 'DEL' for delete
+if (value === "DEL") {
+  // If 'DEL', remove the last character from the screen
+  document.getElementById("screen").value = screenValue.slice(0, -1);
+} else {
+  // If not 'DEL', append the value to the screen
+  document.getElementById("screen").value += value;
 }
 
 // Function to clear the screen
